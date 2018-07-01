@@ -5,6 +5,9 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class Meal {
+
+    private final int id;
+
     private final LocalDateTime dateTime;
 
     private final String description;
@@ -12,9 +15,28 @@ public class Meal {
     private final int calories;
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
+        this.id = -1;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;
+    }
+
+    public Meal(int id, LocalDateTime dateTime, String description, int calories) {
+        this.id = id;
+        this.dateTime = dateTime;
+        this.description = description;
+        this.calories = calories;
+    }
+
+    public Meal(int id, Meal mealWithoutId) {
+        this.id = id;
+        this.dateTime = mealWithoutId.dateTime;
+        this.description = mealWithoutId.description;
+        this.calories = mealWithoutId.calories;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public LocalDateTime getDateTime() {
