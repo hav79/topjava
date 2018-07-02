@@ -7,66 +7,65 @@ import ru.javawebinar.topjava.util.MealsUtil;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class InMemoryMealDao implements MealDao {
 
-    private static AtomicInteger counter = new AtomicInteger(0);
+    private AtomicInteger counter = new AtomicInteger(0);
 
-    private final CopyOnWriteArrayList<Meal> meals = new CopyOnWriteArrayList<>(Arrays.asList(
-            new Meal(getNextId(), LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-            new Meal(getNextId(), LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-            new Meal(getNextId(), LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-            new Meal(getNextId(), LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-            new Meal(getNextId(), LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-            new Meal(getNextId(), LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
-    ));
+    private final ConcurrentHashMap<Integer, Meal> meals = new ConcurrentHashMap<>();
+
+    public InMemoryMealDao() {
+        int newId = getNextId();
+        meals.put(newId, new Meal(newId, LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
+        newId = getNextId();
+        meals.put(newId, new Meal(newId, LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
+        newId = getNextId();
+        meals.put(newId, new Meal(newId, LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
+        newId = getNextId();
+        meals.put(newId, new Meal(newId, LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        newId = getNextId();
+        meals.put(newId, new Meal(newId, LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
+        newId = getNextId();
+        meals.put(newId, new Meal(newId, LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+    }
 
     @Override
     public void add(Meal meal) {
-        if (meal.getId() == -1)
-            meals.add(new Meal(getNextId(), meal));
+        if (meal.getId() == -1) {
+            int newId = getNextId();
+            meals.put(newId, new Meal(newId, meal));
+        }
         else
-            meals.add(meal);
+            meals.put(meal.getId(), meal);
     }
 
     @Override
     public void delete(int id) {
-        Meal meal = getById(id);
-        meals.remove(meal);
+        meals.remove(id);
     }
 
     @Override
     public void update(Meal meal) {
-        Meal inDb = getById(meal.getId());
-        if (inDb != null) {
-            delete(inDb.getId());
-            add(meal);
-        }
-        meals.sort(Comparator.comparingInt(Meal::getId));
+        meals.replace(meal.getId(), meal);
     }
 
     @Override
     public List<MealWithExceed> getAll(int caloriesPerDay) {
-        return MealsUtil.getWithExceeded(meals, caloriesPerDay);
+        return MealsUtil.getWithExceeded(new ArrayList<>(meals.values()), caloriesPerDay);
     }
 
     @Override
     public List<MealWithExceed> getFiltered(LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        return MealsUtil.getFilteredWithExceeded(meals, startTime, endTime, caloriesPerDay);
+        return MealsUtil.getFilteredWithExceeded(new ArrayList<>(meals.values()), startTime, endTime, caloriesPerDay);
     }
 
     @Override
     public Meal getById(int id) {
-        for (Meal meal : meals) {
-            if (meal.getId() == id)
-                return meal;
-        }
-        return null;
+        return meals.get(id);
     }
 
     private int getNextId() {

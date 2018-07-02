@@ -7,14 +7,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
 public class MealsUtil {
 
-    public static List<MealWithExceed> getWithExceeded(CopyOnWriteArrayList<Meal> meals, int caloriesPerDay) {
+    public static List<MealWithExceed> getWithExceeded(List<Meal> meals, int caloriesPerDay) {
        return getFilteredWithExceeded(meals, LocalTime.MIN, LocalTime.MAX, caloriesPerDay);
     }
 
