@@ -20,14 +20,15 @@
     </tr>
     </thead>
     <tbody>
-    <c:forEach var="m" items="${meals}">
-        <tr style="background-color: ${m.exceed ? "red" : "green"}">
-            <td>${m.id}</td>
-            <td>${m.description}</td>
-            <td><javatime:format value="${m.dateTime}" style="L-"/></td>
-            <td>${m.calories}</td>
-            <td><a href="meals?action=edit&id=${m.id}">Update</a></td>
-            <td><a href="meals?action=delete&id=${m.id}">Delete</a></td>
+    <c:forEach var="meal" items="${meals}">
+        <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealWithExceed" />
+        <tr style="background-color: ${meal.exceed ? "red" : "green"}">
+            <td>${meal.id}</td>
+            <td>${meal.description}</td>
+            <td><javatime:format value="${meal.dateTime}" style="L-"/></td>
+            <td>${meal.calories}</td>
+            <td><a href="meals?action=edit&id=${meal.id}">Update</a></td>
+            <td><a href="meals?action=delete&id=${meal.id}">Delete</a></td>
         </tr>
     </c:forEach>
     </tbody>
