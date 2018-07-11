@@ -60,14 +60,6 @@ public class MealServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         switch (action == null ? "all" : action) {
-            case "filter":
-                log.info("Filter");
-                LocalDateTime start = getDateTime(request,"startDate", "startTime");
-                LocalDateTime end = getDateTime(request, "endDate", "endTime");
-                request.setAttribute("meals",
-                        controller.getFiltered(start, end));
-                request.getRequestDispatcher("/meals.jsp").forward(request, response);
-                break;
             case "delete":
                 int id = getId(request);
                 log.info("Delete {}", id);
@@ -88,10 +80,12 @@ public class MealServlet extends HttpServlet {
             default:
                 log.info("getAll");
                 request.setAttribute("meals",
-//                        controller.getFiltered(getDateTime(request,"startDate", "startTime"),
-//                                getDateTime(request, "endDate", "endTime")));
-                        controller.getAll());
-                        request.getRequestDispatcher("/meals.jsp").forward(request, response);
+                        controller.getFiltered(getStartDateTime(request), getEndDateTime(request)));
+                request.setAttribute("startDate", request.getParameter("startDate"));
+                request.setAttribute("endDate", request.getParameter("endDate"));
+                request.setAttribute("startTime", request.getParameter("startTime"));
+                request.setAttribute("endTime", request.getParameter("endTime"));
+                request.getRequestDispatcher("/meals.jsp").forward(request, response);
                 break;
         }
     }
@@ -101,9 +95,27 @@ public class MealServlet extends HttpServlet {
         return Integer.parseInt(paramId);
     }
 
-    private LocalDateTime getDateTime(HttpServletRequest request, String date, String time) {
-        return LocalDateTime.of(
-                LocalDate.parse(request.getParameter(date)),
-                LocalTime.parse(request.getParameter(time)));
+    private LocalDateTime getStartDateTime(HttpServletRequest request) {
+        LocalDate date = hasParameter(request, "startDate")
+                ? LocalDate.parse(request.getParameter("startDate"))
+                : LocalDate.MIN;
+        LocalTime time = hasParameter(request, "startTime")
+                ? LocalTime.parse(request.getParameter("startTime"))
+                : LocalTime.MIN;
+        return LocalDateTime.of(date, time);
+    }
+
+    private LocalDateTime getEndDateTime(HttpServletRequest request) {
+        LocalDate date = hasParameter(request, "endDate")
+                ? LocalDate.parse(request.getParameter("endDate"))
+                : LocalDate.MAX;
+        LocalTime time = hasParameter(request, "endTime")
+                ? LocalTime.parse(request.getParameter("endTime"))
+                : LocalTime.MAX;
+        return LocalDateTime.of(date, time);
+    }
+
+    private boolean hasParameter(HttpServletRequest request, String param) {
+        return request.getParameter(param) != null && !request.getParameter(param).toString().isEmpty();
     }
 }

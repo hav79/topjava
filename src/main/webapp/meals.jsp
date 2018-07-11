@@ -23,18 +23,19 @@
     <a href="meals?action=create">Add Meal</a>
     <hr/>
     <form method="get" action="meals">
-        <input type="hidden" id="action" name="action" value="filter">
+        <%--<input type="hidden" id="action" name="action" value="filter">--%>
         <label for="startDate">От даты</label>
-        <input type="date" name="startDate" id="startDate">
+        <input type="date" name="startDate" id="startDate" value="${startDate}">
 
         <label for="endDate">До даты</label>
-        <input type="date" name="endDate" id="endDate">
+        <input type="date" name="endDate" id="endDate" value="${endDate}">
 
         <label for="startTime">От времени</label>
-        <input type="time" name="startTime" id="startTime">
+        <input type="time" name="startTime" id="startTime" value="${startTime}">
 
         <label for="endTime">До времени</label>
-        <input type="time" name="endTime" id="endTime">
+        <input type="time" name="endTime" id="endTime" value="${endTime}">
+
         <button type="submit">Filter</button>
     </form>
     <hr/>
