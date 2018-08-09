@@ -99,7 +99,7 @@ public abstract class AbstractUserServiceTest extends AbstractServiceTest {
         validateRootCause(() -> service.create(new User(null, "User", "mail@yandex.ru", "password", 10001, true, new Date(), Collections.emptySet())), ConstraintViolationException.class);
     }
 
-    @Autowired
+    @Autowired(required = false)
      public void setJpaUtil(JpaUtil jpaUtil) {
         this.jpaUtil = jpaUtil;
     }
