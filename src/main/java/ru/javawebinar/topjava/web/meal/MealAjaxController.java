@@ -14,7 +14,7 @@ import java.util.List;
 public class MealAjaxController extends AbstractMealController {
 
     @Override
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
     }

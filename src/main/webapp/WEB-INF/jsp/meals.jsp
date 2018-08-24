@@ -29,12 +29,12 @@
             </thead>
             <c:forEach items="${meals}" var="meal">
                 <jsp:useBean id="meal" type="ru.javawebinar.topjava.to.MealWithExceed"/>
-                <tr data-mealExceed="${meal.exceed}">
+                <tr id="${meal.id}">
                     <td>${fn:formatDateTime(meal.dateTime)}</td>
                     <td>${meal.description}</td>
                     <td>${meal.calories}</td>
-                    <td><a class="edit" href=""><span class="fa fa-pencil"></span></a> </td>
-                    <td><a class="delete" href=""><span class="fa fa-remove"></span></a> </td>
+                    <td><a><span class="fa fa-pencil"></span></a> </td>
+                    <td><a class="delete"><span class="fa fa-remove"></span></a> </td>
                 </tr>
             </c:forEach>
         </table>
