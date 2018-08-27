@@ -27,11 +27,22 @@ function deleteRow(id) {
     });
 }
 
-function updateTable() {
-    $.get(ajaxUrl, function (data) {
-        datatableApi.clear().rows.add(data).draw();
-    });
-}
+// function updateTable() {
+//     var form = $("#filterForm");
+//     $.ajax({
+//         type: "POST",
+//         url: ajaxUrl + "filter",
+//         data: form.serialize(),
+//         success: function (data) {
+//             datatableApi.clear().rows.add(data).draw();
+//             successNoty("Updated");
+//         }
+//     });
+//
+//     // $.get(ajaxUrl, function (data) {
+//     //     datatableApi.clear().rows.add(data).draw();
+//     // });
+// }
 
 function save() {
     var form = $("#detailsForm");

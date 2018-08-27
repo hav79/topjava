@@ -13,6 +13,39 @@
     <div class="container">
         <h3><spring:message code="meal.title"/></h3>
         <br/>
+
+        <form id="filterForm">
+            <div class="form-row">
+                <label for="startDate" class="col-form-label">From</label>
+                <div class="form-group">
+                    <%--<label for="startDate" class="col-form-label"><spring:message code="meal.startDate"/></label>--%>
+                    <input type="date" class="form-control" name="startDate" id="startDate"
+                    placeholder="<spring:message code="meal.startDate"/>">
+                </div>
+                <div class="form-group">
+                    <%--<label for="startTime" class="col-form-label"><spring:message code="meal.startTime"/></label>--%>
+                    <input type="time" class="form-control" name="startTime" id="startTime"
+                           placeholder="<spring:message code="meal.startTime"/>">
+                </div>
+            </div>
+            <div class="form-row">
+                <label for="endDate" class="col-form-label">To</label>
+                <div class="form-group">
+                    <%--<label for="endDate" class="col-form-label"><spring:message code="meal.endDate"/></label>--%>
+                    <input type="date" class="form-control" name="endDate" id="endDate"
+                           placeholder="<spring:message code="meal.endDate"/>">
+                </div>
+                <div class="form-group">
+                    <%--<label for="endTime" class="col-form-label"><spring:message code="meal.endTime"/></label>--%>
+                    <input type="time" class="form-control" name="endTime" id="endTime"
+                           placeholder="<spring:message code="meal.endTime"/>">
+                </div>
+            </div>
+        </form>
+        <button class="btn btn-primary" onclick="updateTable()"><spring:message code="meal.filter"/></button>
+        <button type="button" class="btn btn-secondary" onclick="resetFilter()">Reset</button>
+
+
         <button class="btn btn-primary" onclick="add()">
             <span class="fa fa-plus"></span>
             <spring:message code="common.add"/>
