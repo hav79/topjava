@@ -40,7 +40,7 @@ $(function () {
     });
     makeEditable();
     $(".enabled").change(function () {
-        setEnabled($(this).parents("tr").attr("id"), $("this").prop("checked"));
+        setEnabled($(this).parents("tr").attr("id"), $(this).prop("checked"));
     })
 });
 
@@ -51,7 +51,7 @@ function updateTable() {
 }
 
 function setEnabled(id, enabled) {
-    $.post(ajaxUrl + id, function () {
+    $.post(ajaxUrl + id, {enabled: enabled}, function () {
         updateTable();
     });
 }
