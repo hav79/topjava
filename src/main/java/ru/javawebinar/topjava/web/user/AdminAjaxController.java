@@ -1,6 +1,7 @@
 package ru.javawebinar.topjava.web.user;
 
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
@@ -21,6 +22,14 @@ public class AdminAjaxController extends AbstractUserController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") int id) {
         super.delete(id);
+    }
+
+    @Transactional
+    @PostMapping(value = "/{id}")
+    public void setEnabled(@PathVariable("id") int id) {
+        User user = super.get(id);
+        user.setEnabled(!user.isEnabled());
+        super.update(user, id);
     }
 
     @PostMapping

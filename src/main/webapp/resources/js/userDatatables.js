@@ -39,10 +39,19 @@ $(function () {
         ]
     });
     makeEditable();
+    $(".enabled").change(function () {
+        setEnabled($(this).parents("tr").attr("id"), $("this").prop("checked"));
+    })
 });
 
 function updateTable() {
     $.get(ajaxUrl, function (data) {
         datatableApi.clear().rows.add(data).draw();
+    });
+}
+
+function setEnabled(id, enabled) {
+    $.post(ajaxUrl + id, function () {
+        updateTable();
     });
 }

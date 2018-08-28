@@ -23,6 +23,10 @@ tr[data-mealExceed="true"] {
     color: red;
 }
 
+tr.disabled {
+    background-color: indianred;
+}
+
 .fa {
     cursor: pointer;
 }
