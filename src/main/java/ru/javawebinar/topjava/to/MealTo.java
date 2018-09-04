@@ -10,14 +10,12 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static org.springframework.format.annotation.DateTimeFormat.ISO;
-
 public class MealTo extends BaseTo implements Serializable {
     private static final long serialVersionUID = 11L;
 
     @NotNull(message = "Please enter a date")
     @Past(message = "Only the past is valid")
-    @DateTimeFormat(iso = ISO.DATE_TIME)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     protected LocalDateTime dateTime;
 
     @Size(min = 2, max = 120, message = "Description length must between 2 and 120 characters")
@@ -25,12 +23,12 @@ public class MealTo extends BaseTo implements Serializable {
 
     @NotNull(message = "Calories must not be 0")
     @Range(min = 10, max = 5000, message = "Calories must between 10 and 5000")
-    protected int calories;
+    protected Integer calories;
 
     public MealTo() {
     }
 
-    public MealTo(Integer id, LocalDateTime dateTime, String description, int calories) {
+    public MealTo(Integer id, LocalDateTime dateTime, String description, Integer calories) {
         super(id);
         this.dateTime = dateTime;
         this.description = description;
@@ -57,7 +55,7 @@ public class MealTo extends BaseTo implements Serializable {
         return calories;
     }
 
-    public void setCalories(int calories) {
+    public void setCalories(Integer calories) {
         this.calories = calories;
     }
 
